@@ -3,3 +3,5 @@
 #bootstrap css
 #/src/main/webapp/static/css/open-iconic-bootstrap.css
 #/src/main/webapp/static/css/bootstrap.min.css
+
+/src/main/resources/application.properties

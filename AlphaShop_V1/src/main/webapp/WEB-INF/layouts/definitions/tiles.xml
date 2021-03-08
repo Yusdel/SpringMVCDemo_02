@@ -14,4 +14,9 @@
 		<put-attribute name="title" value="Benvenuto in AlphaShop" />
 		<put-attribute name="content" value="/WEB-INF/views/welcome.jsp" />
 	</definition>
+	
+	<definition name="articoli" extends="baseLayout">
+		<put-attribute name="title" value="Ricerca Articoli" />
+		<put-attribute name="content" value="/WEB-INF/views/articoli.jsp" />
+	</definition>
 </tiles-definitions>
