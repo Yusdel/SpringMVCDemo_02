@@ -19,4 +19,9 @@
 		<put-attribute name="title" value="Ricerca Articoli" />
 		<put-attribute name="content" value="/WEB-INF/views/articoli.jsp" />
 	</definition>
+	
+	<definition name="infoArticolo" extends="baseLayout">
+		<put-attribute name="title" value="Ricerca Articoli" />
+		<put-attribute name="content" value="/WEB-INF/views/dettarticolo.jsp" />
+	</definition>
 </tiles-definitions>

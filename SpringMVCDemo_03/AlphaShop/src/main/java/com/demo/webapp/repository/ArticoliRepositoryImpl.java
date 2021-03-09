@@ -33,8 +33,12 @@ public class ArticoliRepositoryImpl implements ArticoliRepository{
 
 	@Override
 	public List<Articoli> SelArticoliByFilter(String Filtro, String OrderBy, String Tipo) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String Sql = "EXEC [dbo].[Sp_SelArticoli] '" + Filtro + "','" + OrderBy + "','" + Tipo + "'";
+		
+		List<Articoli> articoli = jdbcTemplate.query(Sql, new ArticoliMapper());
+		
+		return articoli;
 	}
 
 	@Override

@@ -5,11 +5,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.springframework.web.util.UrlPathHelper;
 
 
 /*
@@ -64,5 +66,16 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
         resolver.setSuffix(".jsp");
 
         return resolver;
+    }
+    
+    /* Disable Spring Security Url Path To use @MatrixVariable*/
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+    	
+    	UrlPathHelper urlPathHelper = new UrlPathHelper();
+    	/* Ignore the deletion of the Semicolon*/
+    	urlPathHelper.setRemoveSemicolonContent(false);
+    	
+    	configurer.setUrlPathHelper(urlPathHelper);
     }
 }
