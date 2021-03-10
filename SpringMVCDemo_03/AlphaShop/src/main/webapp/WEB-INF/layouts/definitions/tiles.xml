@@ -25,6 +25,11 @@
 		<put-attribute name="content" value="/WEB-INF/views/dettarticolo.jsp" />
 	</definition>
 	
+	<definition name="insArticolo" extends="baseLayout">
+		<put-attribute name="titolo"  value="Inserimento Nuovo Articolo" />
+		<put-attribute name="content" value="/WEB-INF/views/insarticolo.jsp" />  
+	</definition>
+	
 	<definition name="movimenti" extends="baseLayout">
 		<put-attribute name="titolo"  value="Movimenti Articolo" />
 		<put-attribute name="content" value="/WEB-INF/views/movimenti.jsp" />  

@@ -9,13 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.demo.webapp.domain.Articoli;
+import com.demo.webapp.domain.FamAssort;
+import com.demo.webapp.domain.Iva;
+import com.demo.webapp.repository.FamAssRepository;
+import com.demo.webapp.repository.IvaRepository;
 import com.demo.webapp.service.ArticoliService;
 
 /*
@@ -28,6 +39,12 @@ public class ArticoliController {
 	
 	@Autowired /*Code Injection of the Service Layer*/
 	private ArticoliService articoliService;
+	
+	@Autowired /* NOt used Service Layer because we have only one element. */
+	private FamAssRepository famAssRepository;
+	
+	@Autowired /* NOt used Service Layer because we have only one element. */
+	private IvaRepository ivaRepository;
 	
 	private int NumArt = 0;
 	private List<Articoli> recordset;
@@ -187,6 +204,54 @@ public class ArticoliController {
 				model.addAttribute("articolo", articolo);
 
 				return "infoArticolo";
-		} 
+		}
+		
+		/* FORM Insert Article (first GET then POST)*/
+		
+		/* @RequestMapping(value = "/aggiungi", method = RequestMethod.GET) */
+		/* OR */
+		@GetMapping(value = "/aggiungi")
+		public String InsArticoli(Model model) {
+			
+			/* From here we pass data to jsp and empty model to fill */
+			Articoli articolo = new Articoli();
+			
+			List<FamAssort> famAssort = famAssRepository.SelFamAssort();
+			List<Iva> iva = ivaRepository.SelIva();
 
+			model.addAttribute("Titolo", "Inserimento Nuovo Articolo");
+			model.addAttribute("famAssort", famAssort);
+			model.addAttribute("iva", iva);
+			/* newArticolo = name of modelAttribute in form (data binding). */
+			model.addAttribute("newArticolo", articolo);
+			
+			return "insArticolo";
+		}
+		
+		/* FORM method POST, as params we pass the ID (modelAttribute) of form */
+		@PostMapping(value = "/aggiungi")
+		public String GestInsArticoli(@ModelAttribute("newArticolo") Articoli articolo, BindingResult result) {
+			
+			if(result.getSuppressedFields().length > 0)
+				throw new RuntimeException("ERROR binding in the following fields: " + 
+						StringUtils.arrayToCommaDelimitedString(result.getSuppressedFields()));
+			else
+				articoliService.InsArticolo(articolo);
+			
+			return "redirect:/articoli/lastart";
+			/* return "redirect:/articoli/cerca/" + articolo.getCodArt(); */
+		}
+		
+		/*
+		 * @InitBinder = It allows us to create a mapping of the fields authorized
+		 * to perform Data Binding or of those fields that are explicitly declared excluded from Data Binding.
+		 */
+		@InitBinder
+		public void initializerBinder(WebDataBinder binder) {
+			/* Fields Allowed : Specify the fields that the Binder will have to populate! */
+			binder.setAllowedFields("codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss");
+			
+			/* Fields Not Allowed : Black List, fields that must not be enabled for Data Binding! */
+			binder.setDisallowedFields("Yusdel","Tequila");
+		}
 }
