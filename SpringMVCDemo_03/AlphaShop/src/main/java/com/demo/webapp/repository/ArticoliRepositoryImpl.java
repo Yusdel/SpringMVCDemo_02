@@ -61,7 +61,10 @@ public class ArticoliRepositoryImpl implements ArticoliRepository{
 
 	@Override
 	public void DelArticolo(String CodArt) {
-		// TODO Auto-generated method stub
+		
+		String Sql = "DELETE FROM ARTICOLI WHERE CODART = ?";
+		
+		jdbcTemplate.update(Sql, CodArt);
 		
 	}
 

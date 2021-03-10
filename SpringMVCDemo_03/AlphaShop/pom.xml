@@ -47,7 +47,7 @@
 			<version>3.0.8</version>
 		</dependency>
 		
-		<!-- JDBC - Driver SQL Server (they need a configuration class)-->
+		<!-- JDBC & Driver SQL Server (they need a configuration class)-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
