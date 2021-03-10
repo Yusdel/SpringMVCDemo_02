@@ -34,4 +34,9 @@
 		<put-attribute name="titolo"  value="Movimenti Articolo" />
 		<put-attribute name="content" value="/WEB-INF/views/movimenti.jsp" />  
 	</definition>
+	
+	<definition name="insIngredienti" extends="baseLayout">
+		<put-attribute name="titolo"  value="Inserimento Nuovo Articolo" />
+		<put-attribute name="content" value="/WEB-INF/views/insingredienti.jsp" />  
+	</definition>
 </tiles-definitions>

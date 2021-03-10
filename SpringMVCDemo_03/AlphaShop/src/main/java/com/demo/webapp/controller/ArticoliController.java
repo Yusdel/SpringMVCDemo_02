@@ -252,6 +252,6 @@ public class ArticoliController {
 			binder.setAllowedFields("codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss");
 			
 			/* Fields Not Allowed : Black List, fields that must not be enabled for Data Binding! */
-			binder.setDisallowedFields("Yusdel","Tequila");
+			binder.setDisallowedFields("Yusdel","Morales");
 		}
 }
