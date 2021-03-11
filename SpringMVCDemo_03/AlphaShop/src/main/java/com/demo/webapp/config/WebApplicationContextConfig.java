@@ -7,11 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -132,6 +135,33 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
 		r.setDefaultLocale(new Locale("it")); /* If no result (messages_it.properties) will take messages.properties */
 
 		return r;
-
 	}
+    
+    /* Resource Handlers */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    	/* "/static/images/" => "/img/**" */
+    	registry.addResourceHandler("/img/**").addResourceLocations("/static/images/");
+    }
+    
+    /* 
+     * Start Hibernate Validator 
+     * https://howtodoinjava.com/hibernate/hibernate-validator-java-bean-validation/
+     */
+    @Bean(name = "validator")
+	public LocalValidatorFactoryBean validator()
+	{
+    	/* When error get message from messageSource() */
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+
+		return bean;
+	}
+   
+    @Override
+    public Validator getValidator() {
+    	
+    	return validator();
+    }
+    /* End Hibernate Validator*/
 }

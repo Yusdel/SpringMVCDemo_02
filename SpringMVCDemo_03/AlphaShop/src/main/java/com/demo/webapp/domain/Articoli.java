@@ -3,24 +3,50 @@ package com.demo.webapp.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 /* For domain-type classes, serialization must always be implemented */
 public class Articoli implements Serializable{
 	
 	private static final long serialVersionUID = -411811183648559893L;
 	
 	private int riga;
+	
+	/* message found in message.properties whit indicated path */
+	@javax.validation.constraints.NotEmpty(message = "{NotNull.Articoli.CodArt.validation}")
+	@Size(min = 4, max = 20, message = "{Size.Articoli.CodArt.validation}")
 	private String codArt;
+	
+	@Size(min=8, max=60, message = "{Size.Articoli.descrizione.validation}")
 	private String descrizione;
 	private Double prezzo;
 	private Double prezzoKg;
+	
+	@NotNull(message= "{NotNull.Articoli.um.validation}") 
 	private String um;
 	private String codStat;
+	
+	@Max(99)
+	@Digits(integer=2, fraction=0, message="{Digits.Articoli.pzCart.validation}")
 	private int pzCart;
+	
+	@Digits(integer=4, fraction=3, message="{Digits.Articoli.pesoNetto.validation}")
 	private double pesoNetto;
 	private float qtaMag;
+	
+	@NotNull(message= "{NotNull.Articoli.idIva.validation}") 
 	private int idIva;
+	
+	@NotNull(message= "{NotNull.Articoli.idStatoArt.validation}") 
 	private String idStatoArt;
 	private Date dataCreaz;
+	
+	@NotNull(message= "{NotNull.Articoli.idFamAss.validation}")
 	private int idFamAss;
 	private String desFamAss;
 	

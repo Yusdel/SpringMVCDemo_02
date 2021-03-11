@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -216,21 +218,45 @@ public class ArticoliController {
 			/* From here we pass data to jsp and empty model to fill */
 			Articoli articolo = new Articoli();
 			
-			List<FamAssort> famAssort = famAssRepository.SelFamAssort();
-			List<Iva> iva = ivaRepository.SelIva();
+			//List<FamAssort> famAssort = famAssRepository.SelFamAssort();
+			//List<Iva> iva = ivaRepository.SelIva();
 
 			model.addAttribute("Titolo", "Inserimento Nuovo Articolo");
-			model.addAttribute("famAssort", famAssort);
-			model.addAttribute("iva", iva);
+			model.addAttribute("famAssort", getFamAssort());
+			model.addAttribute("iva", getIva());
 			/* newArticolo = name of modelAttribute in form (data binding). */
 			model.addAttribute("newArticolo", articolo);
 			
 			return "insArticolo";
 		}
 		
-		/* FORM method POST, as params we pass the ID (modelAttribute) of form */
+		@ModelAttribute("famAssort")
+		public List<FamAssort> getFamAssort()
+		{
+			List<FamAssort> famAssort = famAssRepository.SelFamAssort();
+
+			return famAssort;
+		}
+
+		@ModelAttribute("iva")
+		public List<Iva> getIva()
+		{
+			List<Iva> iva = ivaRepository.SelIva();
+
+			return iva;
+		}
+		
+		/* 
+		 * FORM method POST, as params we pass the ID (modelAttribute) of form 
+		 * 
+		 * @Valid = Active validation of data 
+		 */
 		@PostMapping(value = "/aggiungi")
-		public String GestInsArticoli(@ModelAttribute("newArticolo") Articoli articolo, BindingResult result) {
+		public String GestInsArticoli(@Valid @ModelAttribute("newArticolo") Articoli articolo, BindingResult result) {
+			
+			/* check error messages - validation */
+			if (result.hasErrors())
+				return "insArticolo";
 			
 			if(result.getSuppressedFields().length > 0)
 				throw new RuntimeException("ERROR binding in the following fields: " + 
