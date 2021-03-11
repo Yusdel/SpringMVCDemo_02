@@ -1,5 +1,6 @@
 package com.demo.webapp.config;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
@@ -7,9 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,10 +24,15 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
+
+import com.demo.webapp.domain.Articoli;
 
 
 /*
@@ -164,4 +174,55 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
     	return validator();
     }
     /* End Hibernate Validator*/
+    
+    /* 
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * Bean to return JSON Model (Generic) 
+     */
+    @Bean
+	public MappingJackson2JsonView jsonView()
+	{
+		MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+		jsonView.setPrettyPrint(true);
+
+		return jsonView;
+	}
+    
+    /* 
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * To return XML Model (Is necessary specify classes) 
+     * 
+     */
+    @Bean
+	public MarshallingView xmlView()
+	{
+		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+		marshaller.setClassesToBeBound(Articoli.class);
+		
+		MarshallingView xmlView = new MarshallingView(marshaller);
+
+		return xmlView;
+	}
+    
+    /* 
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * View Resolver = to convert JSON/XML Model to JSON/XML format/view
+     */
+    @Bean
+	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager)
+	{
+		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+		resolver.setContentNegotiationManager(manager);
+		
+		ArrayList<View> views = new ArrayList<>();
+		views.add(jsonView()); // Formato JSON
+		views.add(xmlView()); // Formato XML
+//		views.add(articoliPdfView());
+//		views.add(articoliExcelView());
+//		views.add(articoliCsvView());
+		 
+		resolver.setDefaultViews(views);
+		
+		return resolver;
+	}
 }

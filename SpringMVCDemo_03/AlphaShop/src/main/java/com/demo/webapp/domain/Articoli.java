@@ -7,13 +7,19 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.demo.webapp.validator.CodArt;
 
-/* For domain-type classes, serialization must always be implemented */
+/* 
+ * Model
+ * For domain-type classes, serialization must always be implemented 
+ */
+@XmlRootElement
 public class Articoli implements Serializable{
 	
 	private static final long serialVersionUID = -411811183648559893L;
@@ -54,7 +60,11 @@ public class Articoli implements Serializable{
 	private int idFamAss;
 	private String desFamAss;
 	
-	/* For upload IMG*/
+	/* 
+	 * TODO Return JSON/XML/Excel/PDF/CSV data (@JsonIgnore)
+	 * For upload IMG
+	 */
+	@JsonIgnore 
 	private MultipartFile Immage;
 	
 	/* Anonymous Constructor*/
@@ -182,6 +192,8 @@ public class Articoli implements Serializable{
 		this.desFamAss = desFamAss;
 	}
 
+	/* TODO Return JSON/XML/Excel/PDF/CSV data*/
+	@XmlTransient
 	public MultipartFile getImmage() {
 		return Immage;
 	}
