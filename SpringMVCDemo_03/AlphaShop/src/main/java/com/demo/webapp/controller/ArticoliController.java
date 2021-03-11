@@ -1,10 +1,12 @@
 package com.demo.webapp.controller;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.MatrixVariable;
@@ -23,10 +26,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.demo.webapp.domain.Articoli;
 import com.demo.webapp.domain.FamAssort;
 import com.demo.webapp.domain.Iva;
+import com.demo.webapp.exception.NoInfoArtFoundException;
 import com.demo.webapp.repository.FamAssRepository;
 import com.demo.webapp.repository.IvaRepository;
 import com.demo.webapp.service.ArticoliService;
@@ -50,6 +56,7 @@ public class ArticoliController {
 	
 	private int NumArt = 0;
 	private List<Articoli> recordset;
+	private final String PathImages = "static\\images\\Articoli\\";
 	/*
 	 * @PathVariable = It tells SpringMVC that the "filter" element must be searched for in the
 	 * path/url variables, then we pass it to the String "Filter".
@@ -193,17 +200,41 @@ public class ArticoliController {
 		
 		/* http://localhost:8080/alphashop/articoli/infoart/000087101 */
 		@RequestMapping(value = "/infoart/{codart}", method = RequestMethod.GET)
-		public String GetDettArticolo(@PathVariable("codart") String CodArt, Model model)
+		public String GetDettArticolo(@PathVariable("codart") String CodArt, Model model, HttpServletRequest request)
 		{
 				Articoli articolo = null;
 				recordset = articoliService.SelArticoliByFilter(CodArt);
 				
-				if (recordset != null)
+				boolean IsFileOk = false;
+				
+				/* Custom Error Page */
+				if (recordset == null || recordset.isEmpty())
+					throw new NoInfoArtFoundException(CodArt); 
+				else
 					articolo = recordset.get(0);
+//				
+//				if (recordset!=null)
+//					articolo = recordset.get(0);
+				
+				try
+				{
+					String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+					String PathName = rootDirectory + PathImages + articolo.getCodArt().trim() + ".png";
 
+					File f = new File(PathName);
+					
+					IsFileOk = f.exists();
+					
+				} 
+				catch (Exception ex)
+				{ 
+				}
+
+				//pass data to views
 				model.addAttribute("Titolo", "Dettaglio Articolo");
 				model.addAttribute("Titolo2", "Dati Articolo " + CodArt);
 				model.addAttribute("articolo", articolo);
+				model.addAttribute("IsFileOk", IsFileOk);
 
 				return "infoArticolo";
 		}
@@ -252,11 +283,30 @@ public class ArticoliController {
 		 * @Valid = Active validation of data 
 		 */
 		@PostMapping(value = "/aggiungi")
-		public String GestInsArticoli(@Valid @ModelAttribute("newArticolo") Articoli articolo, BindingResult result) {
+		public String GestInsArticoli(@Valid @ModelAttribute("newArticolo") Articoli articolo, BindingResult result, HttpServletRequest request) {
+			
+			MultipartFile productImage = articolo.getImmage();
 			
 			/* check error messages - validation */
 			if (result.hasErrors())
 				return "insArticolo";
+			
+			/* Upload IMG */
+			if(productImage != null && !productImage.isEmpty()) {
+				try
+				{
+					String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+					String PathName = rootDirectory + PathImages + articolo.getCodArt().trim() + ".png";
+
+					/* transfertTo = from temporary folder to Articoli folder */
+					productImage.transferTo(new File(PathName));
+					
+				} 
+				catch (Exception ex)
+				{
+					throw new RuntimeException("Errore trasferimento file", ex);
+				}
+			}
 			
 			if(result.getSuppressedFields().length > 0)
 				throw new RuntimeException("ERROR binding in the following fields: " + 
@@ -264,7 +314,7 @@ public class ArticoliController {
 			else
 				articoliService.InsArticolo(articolo);
 			
-			return "redirect:/articoli/lastart";
+			return "redirect:/articoli/infoart/" + articolo.getCodArt().trim();
 			/* return "redirect:/articoli/cerca/" + articolo.getCodArt(); */
 		}
 		
@@ -275,9 +325,26 @@ public class ArticoliController {
 		@InitBinder
 		public void initializerBinder(WebDataBinder binder) {
 			/* Fields Allowed : Specify the fields that the Binder will have to populate! */
-			binder.setAllowedFields("codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss");
+			binder.setAllowedFields("codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss","immage");
 			
 			/* Fields Not Allowed : Black List, fields that must not be enabled for Data Binding! */
 			binder.setDisallowedFields("Yusdel","Morales");
 		}
+		
+		/* Method of handling the error */
+		@ExceptionHandler(NoInfoArtFoundException.class)
+		public ModelAndView handleError(HttpServletRequest request, NoInfoArtFoundException exception)
+		{
+			/* ModelAndView = Is a variant of Model */
+			ModelAndView mav = new ModelAndView();
+
+			mav.addObject("codice", exception.getCodArt());
+			mav.addObject("exception", exception);
+			mav.addObject("url", request.getRequestURL() + "?" + request.getQueryString());
+			
+			mav.setViewName("noInfoArt");
+
+			return mav;
+		}
+		
 }
