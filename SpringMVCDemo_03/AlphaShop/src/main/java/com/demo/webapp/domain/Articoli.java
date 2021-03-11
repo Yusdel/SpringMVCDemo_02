@@ -10,6 +10,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.demo.webapp.validator.CodArt;
+
 /* For domain-type classes, serialization must always be implemented */
 public class Articoli implements Serializable{
 	
@@ -18,8 +20,9 @@ public class Articoli implements Serializable{
 	private int riga;
 	
 	/* message found in message.properties whit indicated path */
-	@javax.validation.constraints.NotEmpty(message = "{NotNull.Articoli.CodArt.validation}")
+	@javax.validation.constraints.NotEmpty(message = "{NotNull.Articoli.codArt.validation}")
 	@Size(min = 4, max = 20, message = "{Size.Articoli.CodArt.validation}")
+	@CodArt /* Custom validator! */
 	private String codArt;
 	
 	@Size(min=8, max=60, message = "{Size.Articoli.descrizione.validation}")
