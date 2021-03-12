@@ -250,13 +250,17 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
 		resolver.setContentNegotiationManager(manager);
 		
+		/*
+		 * TODO Reading and Processing a file 
+		 * It's possible to insert only one automatic conversion in PDF format
+		 */
 		ArrayList<View> views = new ArrayList<>();
 		views.add(jsonView()); // Formato JSON
 		views.add(xmlView()); // Formato XML
 		views.add(articoliPdfView());
 		views.add(articoliExcelView());
 		views.add(articoliCsvView());
-		 
+		//views.add(rilevazioniPdfView) 
 		resolver.setDefaultViews(views);
 		
 		return resolver;
