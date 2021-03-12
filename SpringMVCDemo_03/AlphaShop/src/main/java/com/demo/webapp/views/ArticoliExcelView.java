@@ -21,7 +21,8 @@ import com.demo.webapp.domain.Articoli;
  * 
  * @author Yusdel Morales
  * TODO Return JSON/XML/Excel/PDF/CSV data
- *
+ * 
+ * Creating an Excel file
  */
 public class ArticoliExcelView  extends AbstractXlsxView
 {
@@ -36,16 +37,17 @@ public class ArticoliExcelView  extends AbstractXlsxView
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception
 	{
-		// Tipo e nome del file
+		// File type and name
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
 		
 		@SuppressWarnings({ "unchecked" })
 		List<Articoli> articoli = (List<Articoli>) model.get("Articoli");
 		
+		// Create new (Excel) Spreadsheet file
 		final Sheet sheet = workbook.createSheet("Articoli");
 		sheet.setDefaultColumnWidth(30);
 		
-		// stile intestazione
+		// Header style
 		CellStyle style = workbook.createCellStyle();
 		Font font = workbook.createFont();
 		font.setFontName("Arial");
@@ -55,7 +57,7 @@ public class ArticoliExcelView  extends AbstractXlsxView
 		font.setColor(HSSFColor.HSSFColorPredefined.WHITE.getIndex());
 		style.setFont(font);
 		
-		// creazione riga di instestazione
+		// Header row creation
 		Row header = sheet.createRow(0);
 		header.createCell(0).setCellValue("Codice");
 		header.getCell(0).setCellStyle(style);
@@ -70,7 +72,7 @@ public class ArticoliExcelView  extends AbstractXlsxView
 		
 		int rowCount = 1;
 		
-		//popolamento del file excel
+		// Populating the excel file
 		for (Articoli articolo : articoli)
 		{
 			Row ArtRow = sheet.createRow(rowCount++);

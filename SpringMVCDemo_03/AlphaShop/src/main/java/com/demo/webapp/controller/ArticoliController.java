@@ -347,4 +347,18 @@ public class ArticoliController {
 			return mav;
 		}
 		
+		/* 
+		 * TODO Return JSON/XML/Excel/PDF/CSV data 
+		 * http://localhost:8080/AlphaShop/articoli/cerca/pasta/download.pdf
+		 * (download.csv - download.xlsx)
+		 */
+		@RequestMapping(value = "/cerca/{filter}/download", method = RequestMethod.GET)
+		public String GetArticoliByFilterDwld(@PathVariable("filter") String Filter, Model model)
+		{
+			recordset = articoliService.SelArticoliByFilter(Filter);
+			model.addAttribute("Articoli", recordset);
+
+			return "";
+		}
+		
 }

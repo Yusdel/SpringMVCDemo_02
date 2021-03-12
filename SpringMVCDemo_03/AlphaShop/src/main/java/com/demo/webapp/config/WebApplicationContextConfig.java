@@ -33,6 +33,9 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.demo.webapp.domain.Articoli;
+import com.demo.webapp.views.ArticoliCsvView;
+import com.demo.webapp.views.ArticoliExcelView;
+import com.demo.webapp.views.ArticoliPdfView;
 
 
 /*
@@ -204,6 +207,39 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
 		return xmlView;
 	}
     
+    /*
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * Initialized
+     * http://localhost:8080/AlphaShop/articoli/cerca/nutella.pdf
+     */
+    @Bean
+	public ArticoliPdfView articoliPdfView()
+	{
+		return new ArticoliPdfView("Articoli.pdf");
+	}
+    
+    /*
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * Initialized
+     * http://localhost:8080/AlphaShop/articoli/cerca/nutella.xlsx
+     */
+    @Bean
+	public ArticoliExcelView articoliExcelView()
+	{
+		return new ArticoliExcelView("Articoli.xlsx");
+	}
+	
+    /*
+     * TODO Return JSON/XML/Excel/PDF/CSV data
+     * Initialized
+     * http://localhost:8080/AlphaShop/articoli/cerca/nutella.csv
+     */
+	@Bean
+	public ArticoliCsvView articoliCsvView()
+	{
+		return new ArticoliCsvView("Articoli.csv");
+	}
+    
     /* 
      * TODO Return JSON/XML/Excel/PDF/CSV data
      * View Resolver = to convert JSON/XML Model to JSON/XML format/view
@@ -217,9 +253,9 @@ public class WebApplicationContextConfig implements WebMvcConfigurer{
 		ArrayList<View> views = new ArrayList<>();
 		views.add(jsonView()); // Formato JSON
 		views.add(xmlView()); // Formato XML
-//		views.add(articoliPdfView());
-//		views.add(articoliExcelView());
-//		views.add(articoliCsvView());
+		views.add(articoliPdfView());
+		views.add(articoliExcelView());
+		views.add(articoliCsvView());
 		 
 		resolver.setDefaultViews(views);
 		

@@ -52,7 +52,7 @@ public class ArticoliPdfView extends MyAbstractPdfView
 	{
 		final String Titolo = "Elenco Articoli";
 		 
-		//Impostazione del nome del file
+		// File name setting
         response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
            
         List<Articoli> articoli = (List<Articoli>) model.get("Articoli");

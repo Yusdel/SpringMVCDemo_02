@@ -17,6 +17,7 @@ import com.demo.webapp.domain.Articoli;
  * @author Yusdel Morales
  * TODO Return JSON/XML/Excel/PDF/CSV data
  *
+ * Creating an CSV file
  */
 public class ArticoliCsvView extends MyAbstractCsvView
 {	
