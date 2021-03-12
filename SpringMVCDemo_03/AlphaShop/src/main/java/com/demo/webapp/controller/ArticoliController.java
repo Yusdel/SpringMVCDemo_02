@@ -57,6 +57,18 @@ public class ArticoliController {
 	private int NumArt = 0;
 	private List<Articoli> recordset;
 	private final String PathImages = "static\\images\\Articoli\\";
+	
+	/* base url */
+	@RequestMapping(method = RequestMethod.GET)
+	public String GetArticoli(Model model)
+	{
+		model.addAttribute("Titolo", "Ricerca Articoli");
+		model.addAttribute("Titolo2", "Ricerca gli articoli");
+		model.addAttribute("IsArticoli", true);
+		
+		return "articoli";
+	}
+	
 	/*
 	 * @PathVariable = It tells SpringMVC that the "filter" element must be searched for in the
 	 * path/url variables, then we pass it to the String "Filter".
@@ -325,7 +337,7 @@ public class ArticoliController {
 		@InitBinder
 		public void initializerBinder(WebDataBinder binder) {
 			/* Fields Allowed : Specify the fields that the Binder will have to populate! */
-			binder.setAllowedFields("codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss","immage");
+			binder.setAllowedFields("CodArt","codArt","descrizione","um","pzCart","pesoNetto","idIva","idStatoArt","idFamAss","immage");
 			
 			/* Fields Not Allowed : Black List, fields that must not be enabled for Data Binding! */
 			binder.setDisallowedFields("Yusdel","Morales");
@@ -361,4 +373,77 @@ public class ArticoliController {
 			return "";
 		}
 		
+		@GetMapping(value = "/modifica/{CodArt}")
+		public String UpdArticoli(Model model, @PathVariable("CodArt") String CodArt)
+		{
+			Articoli articolo =  articoliService.SelArticoliByFilter(CodArt).get(0);
+			
+			if (articolo == null)
+				throw new NoInfoArtFoundException(CodArt); 
+			
+			model.addAttribute("Titolo", "Modifica Articolo");
+			model.addAttribute("newArticolo", articolo);
+			model.addAttribute("famAssort", getFamAssort());
+			model.addAttribute("Iva", getIva());
+
+			return "insArticolo";
+		}
+		
+		// http://localhost:8080/AlphaShop/articoli/modifica/000021301
+		@RequestMapping(value = "/modifica/{CodArt}", method = RequestMethod.POST)
+		public String GestUpdArticoli(@Valid @ModelAttribute("newArticolo") Articoli articolo, BindingResult result,
+				@PathVariable("CodArt") String CodArt, Model model, HttpServletRequest request)
+		{
+
+			if (result.hasErrors())
+			{
+				return "insArticolo";
+			}
+
+			MultipartFile productImage = articolo.getImmage();
+
+			if (productImage != null && !productImage.isEmpty())
+			{
+				try
+				{
+					String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+					String PathName = rootDirectory + PathImages + articolo.getCodArt().trim() + ".png";
+
+					productImage.transferTo(new File(PathName));
+					
+				} 
+				catch (Exception ex)
+				{
+					throw new RuntimeException("Errore trasferimento file", ex);
+				}
+			}
+
+			if (result.getSuppressedFields().length > 0)
+				throw new RuntimeException("ERRORE: Tentativo di eseguire il binding dei seguenti campi NON consentiti: "
+						+ StringUtils.arrayToCommaDelimitedString(result.getSuppressedFields()));
+			else
+			{
+				articoliService.InsArticolo(articolo);
+			}
+
+			return "redirect:/articoli/infoart/" + CodArt.trim();
+		}
+		
+		@GetMapping(value = "/elimina/{CodArt}")
+		public String DelArticolo(@PathVariable("CodArt") String codArt, Model model)
+		{
+			try
+			{
+				if (codArt.length() > 0)
+				{
+					articoliService.DelArticolo(codArt);
+				}
+			} 
+			catch (Exception ex)
+			{
+				throw new RuntimeException("Errore eliminazione articolo", ex);
+			}
+
+			return "redirect:/articoli/";
+		}
 }
