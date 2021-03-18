@@ -7,6 +7,7 @@
   
     <properties>
 		<springframework.version>5.1.5.RELEASE</springframework.version>
+		<hibernate.version>5.4.29.Final</hibernate.version>
 	</properties>
 	
 	<dependencies>
@@ -158,6 +159,33 @@
 			<artifactId>super-csv</artifactId>
 			<version>2.4.0</version>
 		</dependency>
+		
+		<!-- STEP A-Config : TODO Hibernate and JPA Framework-->
+		
+		<dependency> <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-core</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+		
+		<dependency><!-- driver hibernate to c3p0 | https://mvnrepository.com/artifact/org.hibernate/hibernate-c3p0 -->
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-c3p0</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+		<dependency><!-- JDBC Pools | https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		    <groupId>com.mchange</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.5.5</version>
+		</dependency>
+		
+		<dependency><!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		    <version>2.4.6</version>
+		</dependency>
+		
+		<!-- STEP A-Config : end -->
 	</dependencies>		
 
 	<build>

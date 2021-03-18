@@ -55,7 +55,11 @@ public class jdbcConfig {
 		return dataSource;
 	}
 	
-	/* manage transactions */
+	/* 
+	 * manage transactions
+	 * STEP A-Config: TODO Hibernate and JPA Framework 
+	 * Transactions will be manage by Hibernate not Jdbc
+	 *
 	@Bean
 	public DataSourceTransactionManager transactionManager()
 	{
@@ -63,5 +67,5 @@ public class jdbcConfig {
 		transactionManager.setDataSource(dataSource());
 		
 		return transactionManager;
-	}
+	} */
 }
