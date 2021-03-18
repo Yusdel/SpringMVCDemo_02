@@ -118,7 +118,10 @@
 				
 				<div class="form-actions">
 					<input type="submit" id="btnAdd" class="btn btn-primary form-buttons" value = <spring:message code="insarticolo.form.btnAdd.label"/> />
-					<input type="submit" id="btnAbort" class="btn btn-default form-buttons" value = <spring:message code="insarticolo.form.btnAbort.label"/> />
+					<a href="<spring:url value="/articoli/" /> " id="btnAbort" class="btn btn-default form-buttons" >
+						<spring:message code="insarticolo.form.btnAbort.label"/>
+					</a>
+					<!--<input type="submit" id="btnAbort" class="btn btn-default form-buttons" value = <spring:message code="insarticolo.form.btnAbort.label"/> />-->
 				</div>
 			
 				</form:form>

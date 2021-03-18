@@ -69,6 +69,24 @@ public class ArticoliController {
 		return "articoli";
 	}
 	
+	@GetMapping(value = "/search")
+	public String SearchItem(@RequestParam("filter") String pSearchTerm, Model model)
+	{
+		recordset = articoliService.SelArticoliByFilter(pSearchTerm);
+
+		if (recordset != null)
+			NumArt = recordset.size();
+
+		model.addAttribute("NumArt", NumArt);
+		model.addAttribute("Titolo", "Ricerca Articoli");
+		model.addAttribute("Titolo2", "Risultati Ricerca " + pSearchTerm);
+		model.addAttribute("Articoli", recordset);
+		model.addAttribute("IsArticoli", true);
+		model.addAttribute("filter", pSearchTerm);
+
+		return "articoli";
+	}
+	
 	/*
 	 * @PathVariable = It tells SpringMVC that the "filter" element must be searched for in the
 	 * path/url variables, then we pass it to the String "Filter".
