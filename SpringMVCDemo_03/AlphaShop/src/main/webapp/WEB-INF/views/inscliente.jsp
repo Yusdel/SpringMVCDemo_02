@@ -124,12 +124,13 @@
 							<label for="stato"><spring:message code="inscliente.form.stato.label"/></label>
 							<div class="mt-radio-inline">
 								<label class="mt-radio">
-									<form:radiobutton id="stato" class="form-check-input" path="stato" value="1" checked="true" /> 
+								<!-- TODO New Notation :  Mapping Enumerator -->
+									<form:radiobutton id="stato" class="form-check-input" path="stato" value="ATTIVO" checked="true" /> 
 									<spring:message code="inscliente.form.stato1.label"/>
 									<span></span> 
 								</label>
 								<label class="mt-radio">
-									<form:radiobutton class="form-check-input" path="stato" value="2" /> 
+									<form:radiobutton class="form-check-input" path="stato" value="SOSPESO" /> 
 									<spring:message code="inscliente.form.stato2.label"/>
 									<span></span> 
 								</label>

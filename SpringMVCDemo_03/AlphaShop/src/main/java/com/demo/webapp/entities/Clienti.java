@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -14,6 +16,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +27,10 @@ import org.springframework.format.annotation.DateTimeFormat;
  * the Hibernate will provide for its generation.
  * 
  * STEP B-Using: TODO Hibernate and JPA Framework
+ * 
+ * TODO New Notation :  Mapping Enumerator
+ * TODO New Notation : Transient
+ * @Transient = field not in the table but required in the class
  */
 
 @Entity
@@ -48,6 +55,9 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 	@Size(min=2, max=50, message = "{Size.Clienti.comune.validation}")
 	private String comune;
 	
+	@Transient
+	private String nominativo;
+	
 	@Column(name = "CAP")
 	private String cap;
 	
@@ -61,7 +71,8 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 	private String mail;
 	
 	@Column(name = "STATO")
-	private String stato;
+	@Enumerated(EnumType.ORDINAL) // TODO New Notation :  Mapping Enumerator
+	private Stato stato;
 	
 	//@DateTimeFormat(pattern = "yyyy-mm-dd")
 	@Temporal(TemporalType.DATE) // Only date (dd-mm-yyyy) for datetime use .TIME
@@ -81,6 +92,10 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn 
 	private Cards card;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
+	private Premi premi;
 	
 	/*
 	 * mappedBy = field when is mapped
@@ -156,14 +171,6 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 		this.mail = mail;
 	}
 
-	public String getStato() {
-		return stato;
-	}
-
-	public void setStato(String stato) {
-		this.stato = stato;
-	}
-
 	public Date getDataCreaz() {
 		return dataCreaz;
 	}
@@ -187,6 +194,23 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 
 	public void setUtenti(Utenti utenti) {
 		this.utenti = utenti;
+	}
+
+	public String getNominativo() {
+		return this.nome + " " + this.cognome;
+	}
+
+	public void setNominativo(String nominativo) {
+		this.nominativo = nominativo;
+	}
+
+	// TODO New Notation :  Mapping Enumerator
+	public Stato getStato() {
+		return stato;
+	}
+
+	public void setStato(Stato stato) {
+		this.stato = stato;
 	}
 
 }

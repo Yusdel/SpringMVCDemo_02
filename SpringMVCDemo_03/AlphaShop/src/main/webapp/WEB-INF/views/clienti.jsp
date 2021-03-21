@@ -79,6 +79,7 @@
 		                	<span class="oi oi-elevator"></span>
 		                	</a>
 		                </th>
+		                <th>Stato</th>
 		                <th></th>
 		                <th></th>
 		            </tr>
@@ -90,7 +91,7 @@
 						<tr>
 							<td>${i = i + 1}</td>
 							<td>${Clienti.codFidelity}</td>
-							<td> ${Clienti.cognome} ${Clienti.nome}</td>
+							<td> ${Clienti.nominativo}</td>
 							<td><a href="<spring:url value="/clienti/cerca/comune?filter=${Clienti.comune}" /> ">${Clienti.comune}</a></td>
 							<td>
 							<fmt:formatNumber value = "${Clienti.card.bollini}"  minFractionDigits = "0" type = "number"/>
@@ -98,6 +99,7 @@
 							<td>
 							<fmt:formatDate value="${Clienti.card.ultimaSpesa}" pattern="dd-MM-yyyy" /> 
 							</td>
+							<td>${Clienti.stato}</td>
 							<td>
 								<a href="<spring:url value="/clienti/modifica/${Clienti.codFidelity}" /> " class="btn btn-primary table-buttons">
 								<span class="oi oi-pencil"></span> Modifica 
