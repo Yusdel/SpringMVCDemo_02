@@ -1,6 +1,7 @@
 package com.demo.webapp.entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /*
  * If we create an entity of a table that does not exist in the db,
@@ -66,6 +69,7 @@ public class Clienti  implements Serializable
 	@Column(name = "STATO")
 	private String stato;
 	
+	//@DateTimeFormat(pattern = "yyyy-mm-dd")
 	@Temporal(TemporalType.DATE) // Only date (dd-mm-yyyy) for datetime use .TIME
 	@Column(name = "DATACREAZ")
 	private Date dataCreaz;
@@ -178,8 +182,8 @@ public class Clienti  implements Serializable
 		return dataCreaz;
 	}
 
-	public void setDataCreaz(Date dataCreaz) {
-		this.dataCreaz = dataCreaz;
+	public void setDataCreaz(Date date) {
+		this.dataCreaz = date;
 	}
 	
 	

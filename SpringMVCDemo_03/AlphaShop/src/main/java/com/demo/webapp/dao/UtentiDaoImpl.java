@@ -7,6 +7,10 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import com.demo.webapp.entities.Utenti;
 
+/*
+ * STEP B-Using: TODO Hibernate and JPA Framework
+ */
+
 @Repository
 public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer> 
 	implements UtentiDao
@@ -53,6 +57,25 @@ public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer>
 	{
 		super.Elimina(utente);
 	}
+
+	// TODO Custom Validation if client exist
+	@Override
+	public Utenti SelByUserId(String UserId) {
+		Utenti utente = null;
+			
+		try
+			{
+				String JPQL = "SELECT a FROM Utenti a WHERE a.userId = :UserId";
+				
+				utente = (Utenti) entityManager.createQuery(JPQL)
+						.setParameter("UserId", UserId)
+						.getSingleResult();
+			}
+			catch (Exception ex)
+			{ }
+			
+			return utente;
+		}
 
 	
 

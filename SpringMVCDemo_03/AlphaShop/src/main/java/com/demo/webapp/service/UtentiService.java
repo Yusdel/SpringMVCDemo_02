@@ -1,4 +1,4 @@
-package com.demo.webapp.dao;
+package com.demo.webapp.service;
 
 import com.demo.webapp.entities.Utenti;
 
@@ -6,16 +6,13 @@ import com.demo.webapp.entities.Utenti;
  * STEP B-Using: TODO Hibernate and JPA Framework
  */
 
-public interface UtentiDao
+public interface UtentiService
 {
-	Utenti SelByIdFidelity(String id);
+	Utenti SelByIdFidelity(String idFidelity);
 	
 	void Salva(Utenti utente);
-	
+
 	void Aggiorna(Utenti utente);
 
 	void Elimina(Utenti utente);
-
-	// TODO Custom Validation if client exist
-	Utenti SelByUserId(String UserId);
 }

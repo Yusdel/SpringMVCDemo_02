@@ -1,4 +1,4 @@
-package com.demo.webapp.dao;
+package com.demo.webapp.service;
 
 import java.util.List;
 
@@ -8,26 +8,25 @@ import com.demo.webapp.entities.Clienti;
  * STEP B-Using: TODO Hibernate and JPA Framework
  */
 
-public interface ClientiDao  
+public interface ClientiService
 {
-	Clienti SelByCodFidelity(String CodFidelity);
-	
 	List<Clienti> SelTutti();
 	
-	List<Clienti> SelByComune(String Comune);
+	List<Clienti> SelByNominativo(String Nominativo);
 	
-	List<Clienti> SelByNominativo(String Nome);
+	List<Clienti> SelByComune(String Comune);
 	
 	List<Clienti> SelByBollini(int NumBollini, String Tipo);
 	
 	String SelLastCodFid();
 	
+	Clienti SelCliente(String CodFidelity);
+	
 	long QtaTotBollini();
-
+	
 	void Salva(Clienti cliente);
 
 	void Aggiorna(Clienti cliente);
-
+	
 	void Elimina(Clienti cliente);
-
 }

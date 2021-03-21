@@ -12,6 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import com.demo.webapp.entities.Clienti;
 
+/*
+ * STEP B-Using: TODO Hibernate and JPA Framework
+ */
 //https://docs.oracle.com/javaee/7/tutorial/persistence-querylanguage.htm
 
 @Repository
@@ -89,7 +92,7 @@ public class ClientiDaoImpl extends AbstractDao<Clienti, Integer>
 	}
 	
 	//UTILIZZO JPQL
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") // for try-catch warning
 	@Override
 	public List<Clienti> SelByBollini(int NumBollini, String Tipo)
 	{
@@ -97,7 +100,8 @@ public class ClientiDaoImpl extends AbstractDao<Clienti, Integer>
 		
 		String JPQL = "";
 		
-		if (Tipo.equals(">"))
+		// SimilSql not real SQL, we work with Entities and NOT with Tables
+		if (Tipo.equals(">")) 
 			JPQL = "SELECT a FROM Clienti a JOIN a.card b WHERE b.bollini >= :qtabollini ORDER BY b.bollini DESC";
 		else if (Tipo.equals("<"))
 			JPQL = "SELECT a FROM Clienti a JOIN a.card b WHERE b.bollini <= :qtabollini ORDER BY b.bollini ASC";
@@ -120,8 +124,8 @@ public class ClientiDaoImpl extends AbstractDao<Clienti, Integer>
 			
 			retVal = (String) entityManager
 					.createQuery(JPQL)
-					.setMaxResults(1)
-					.getSingleResult();
+					.setMaxResults(1) // row-number returned
+					.getSingleResult(); // get first row returned
 		}
 		catch (Exception ex)
 		{ }

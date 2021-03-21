@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.demo.webapp.entities.Profili;
  
+/*
+ * STEP B-Using: TODO Hibernate and JPA Framework
+ */
  
 @Repository
 public class ProfiliDaoImpl extends AbstractDao<Profili, Integer> 
@@ -15,7 +18,8 @@ implements ProfiliDao
 	@Override
 	public Profili SelById(int id)
 	{
-		return super.SelById(id);
+		// call Abstract class method! For this we use "super."
+		return super.SelById(id); // call the superclass method
 	}
 
 	

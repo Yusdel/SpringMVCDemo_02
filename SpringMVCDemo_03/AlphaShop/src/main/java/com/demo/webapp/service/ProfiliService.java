@@ -1,15 +1,14 @@
-package com.demo.webapp.dao;
+package com.demo.webapp.service;
 
 import java.util.List;
-
-
-import com.demo.webapp.entities.Profili;
  
+import com.demo.webapp.entities.Profili;
+
 /*
  * STEP B-Using: TODO Hibernate and JPA Framework
  */
 
-public interface ProfiliDao
+public interface ProfiliService
 {
 	Profili SelById(int id);
 	

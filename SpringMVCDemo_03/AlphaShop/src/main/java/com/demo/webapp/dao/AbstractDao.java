@@ -54,7 +54,6 @@ public abstract class AbstractDao<I extends Serializable, Id extends Serializabl
 									query.from(this.entityClass).
 									get("id"), id))).
 					getSingleResult();
-			
 	}
 	
 	@Override

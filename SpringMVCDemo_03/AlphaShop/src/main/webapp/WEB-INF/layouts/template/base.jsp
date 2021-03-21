@@ -65,10 +65,22 @@
         					Ordini
         				</a>
       				</li>
+      				<li class="nav-item">
+        				<a class="nav-link" href="<spring:url value="/clienti/" /> ">
+        					<span class="oi oi-people" title="clienti" aria-hidden="true"></span>
+        					Clienti 
+        				</a>
+      				</li>
     			</ul>
     			
     			<!-- Search Box -->
     			<c:choose>
+    				<c:when test = "${IsClienti}">
+    					<form:form class="form-inline my-2 my-lg-0" id="search" role="search" method="GET" action="/AlphaShop/clienti/search">
+    						<input type="text" onClick="this.select();"  class="form-control mr-sm-2" name="filter" value="${filter}" placeholder="Cerca Clienti">
+    						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cerca</button>
+    					</form:form>
+    				</c:when>
     				<c:when test = "${IsArticoli}">
     					<form:form class="form-inline my-2 my-lg-0" id="search" role="search" method="GET" action="/AlphaShop/articoli/search">
 		      				<input type="text" onClick="this.select();"  class="form-control mr-sm-2" name="filter" value="${filter}" placeholder="Cerca Articoli">
