@@ -22,13 +22,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "UTENTI")
-public class Utenti implements Serializable
+public class Utenti extends AbstractEntityClienti implements Serializable
 {
 	private static final long serialVersionUID = 8473057964112587082L;
-
-	@Id
-	@Column(name = "CODFIDELITY")
-	private String codFidelity;
 	
 	@Column(name = "USERID")
 	private String userId;
@@ -52,7 +48,7 @@ public class Utenti implements Serializable
 	
 	public Utenti(String CodFidelity)
 	{
-		this.codFidelity = CodFidelity;
+		super.codFidelity = CodFidelity; // TODO Entity abstract superclass
 	}
 	
 	public String getUserId()
@@ -83,16 +79,6 @@ public class Utenti implements Serializable
 	public void setAbilitato(String abilitato)
 	{
 		this.abilitato = abilitato;
-	}
-	
-	public String getCodFidelity()
-	{
-		return codFidelity;
-	}
-
-	public void setCodFidelity(String codFidelity)
-	{
-		this.codFidelity = codFidelity;
 	}
 
 	public Clienti getClienti() {

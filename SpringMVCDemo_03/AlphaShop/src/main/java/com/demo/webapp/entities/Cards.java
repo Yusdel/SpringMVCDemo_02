@@ -21,13 +21,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "CARDS")
-public class Cards implements Serializable
+public class Cards extends AbstractEntityClienti implements Serializable
 {
 	private static final long serialVersionUID = -3751231307546162427L;
-	
-	@Id
-	@Column(name = "CODFIDELITY")
-	private String codFidelity;
 	
 	@Column(name = "BOLLINI")
 	private Integer bollini;
@@ -46,18 +42,8 @@ public class Cards implements Serializable
 	
 	public Cards(String CodFid, Integer Bollini)
 	{
-		this.codFidelity = CodFid;
+		super.codFidelity = CodFid; // TODO Entity abstract superclass
 		this.bollini = Bollini;
-	}
-	
-	public String getCodFidelity()
-	{
-		return codFidelity;
-	}
-
-	public void setCodFidelity(String codFidelity)
-	{
-		this.codFidelity = codFidelity;
 	}
 
 	public Integer getBollini()

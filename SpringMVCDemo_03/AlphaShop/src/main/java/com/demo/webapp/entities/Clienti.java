@@ -28,15 +28,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "CLIENTI") //to identify reference table (it's only needed if the class name is not the same as the table name in the DB)
-public class Clienti  implements Serializable
+public class Clienti extends AbstractEntityClienti implements Serializable
 {
 	private static final long serialVersionUID = 3102487555480706992L;
-
-	@Id // Primary Key ( We cannot have an Entity without a primary key ) 
-	@Column(name = "CODFIDELITY")
-	@NotNull(message = "{NotNull.Clienti.codFidelity.validation}")
-	@Size(min=8, max=20, message = "{Size.Clienti.codFidelity.validation}")
-	private String codFidelity;
 	
 	@Column(name = "NOME")
 	@Size(min=2, max=50, message = "{Size.Clienti.nome.validation}")
@@ -97,14 +91,6 @@ public class Clienti  implements Serializable
 	private Utenti utenti;
 	
 	public Clienti() { } // Anonymous Constructor
-
-	public String getCodFidelity() {
-		return codFidelity;
-	}
-
-	public void setCodFidelity(String codFidelity) {
-		this.codFidelity = codFidelity;
-	}
 
 	public String getNome() {
 		return nome;
