@@ -60,6 +60,7 @@ public class HibernateConfig {
 		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
 		
 		hibernateJpaVendorAdapter.setShowSql(true);
+		// To tell Hibernate that can't modify table structure
 		hibernateJpaVendorAdapter.setGenerateDdl(false);
 		// To tell Hibernate which dialect he should speak with 
 		hibernateJpaVendorAdapter.setDatabasePlatform(env.getRequiredProperty("hibernate.dialect")); 

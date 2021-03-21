@@ -3,7 +3,10 @@ package com.demo.webapp.entities;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.management.loading.PrivateClassLoader;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +14,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -96,6 +100,10 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private Premi premi;
+	
+	// TODO generated primary key
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cliente")
+	private Set<Coupons> coupons = new HashSet<>();
 	
 	/*
 	 * mappedBy = field when is mapped
@@ -211,6 +219,14 @@ public class Clienti extends AbstractEntityClienti implements Serializable
 
 	public void setStato(Stato stato) {
 		this.stato = stato;
+	}
+
+	public Set<Coupons> getCoupons() {
+		return coupons;
+	}
+
+	public void setCoupons(Set<Coupons> coupons) {
+		this.coupons = coupons;
 	}
 
 }
