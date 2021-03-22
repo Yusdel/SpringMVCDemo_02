@@ -21,6 +21,8 @@ public class SalutiRestController {
 		return ("Saluti, sono Yusdel!");
 	}
 	
+	// Start TODO Code Injection
+	
 	@Autowired
 	@Qualifier("STD") // identificativo della implementazione dell'interfaccia
 	PremiService premiserviceSTD;
@@ -41,4 +43,6 @@ public class SalutiRestController {
 		
 		return new ResponseEntity<Double>(premio, HttpStatus.OK);
 	}
+	
+	// end TODO Code Injection
 }

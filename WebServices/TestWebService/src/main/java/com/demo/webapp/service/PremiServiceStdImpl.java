@@ -2,7 +2,9 @@ package com.demo.webapp.service;
 
 import org.springframework.stereotype.Service;
 
-@Service("STD")
+// TODO Code Injection
+
+@Service("STD") // stringa che indentifica questo servizio
 public class PremiServiceStdImpl implements PremiService{
 
 	@Override
