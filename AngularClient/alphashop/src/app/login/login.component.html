@@ -1,0 +1,13 @@
+<div *ngIf='!auth'>{{err}}</div>
+<div>
+    <label for="userId">User Id:</label>
+    <input type="text" id="userId" placeholder="Nome Utente" [(ngModel)]="userid">
+
+    <!--[(ngModel)] bananaBox for bidirectional Binding-->
+    <label for="userId">Password:</label>
+    <input type="password" id="password" placeholder="Password" [(ngModel)]="psw">
+
+    <button (click)=gestAut()>Connetti</button>
+
+    <p>userid: {{userid}} - psw: {{psw}}</p>
+</div>
