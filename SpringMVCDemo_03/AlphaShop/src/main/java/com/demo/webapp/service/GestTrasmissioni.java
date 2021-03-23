@@ -27,12 +27,12 @@ import com.demo.webapp.repository.RilevazioniRepository;
  * If the rollback isn't done, Spring still writes the data it managed to write to the Database, 
  * simply skipping the failed transactions.
  * 
- * Propagation.REQUIRES_NEW = Se vi è una transazione panding, proveniente da un'altro processo, si rischia di andare ad annullare
+ * Propagation.REQUIRES_NEW = Se vi è una transazione pending, proveniente da un'altro processo, si rischia di andare ad annullare
  * anche quell'altra transazione che non è magari correlata con questa business logic. In questi casi si crea una nuova transazione 
  * e si mette in pausa l'altra, così in caso di rollback verrà annullata solo questa.
  * 
  * Isolation.READ_COMMITTED = Tipo di isolamento che la nostra transazione può gestire. Serve a gestire le chiamate da parte di ALTRI
- * Thread agli stessi dati che si stanno scrivendo
+ * Thread agli stessi dati che si stanno scrivendo.
  */
 
 @Component
