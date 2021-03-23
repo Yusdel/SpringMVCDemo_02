@@ -59,4 +59,16 @@
 		<put-attribute name="titolo"  value="Dati Cliente" />
 		<put-attribute name="content" value="/WEB-INF/views/inscliente.jsp" />  
 	</definition>
+	
+	<!-- TODO Spring Security new base layout -->
+	<definition name="baseLogIn" template="/WEB-INF/layouts/template/baseLogin.jsp">
+		<put-attribute name="titolo" value="" />
+		<put-attribute name="content" value="" />
+	</definition>
+	
+	<definition name="login" extends="baseLogIn">
+		<put-attribute name="titolo"  value="Accesso al Sito" />
+		<put-attribute name="content" value="/WEB-INF/views/login.jsp" />  
+	</definition>
+	<!-- END TODO Spring Security -->
 </tiles-definitions>
