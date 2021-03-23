@@ -43,4 +43,10 @@ public class UtentiServiceImpl implements UtentiService
 		return utentiRepository.SelByIdFidelity(idFidelity);
 	}
 
+	@Override
+	public Utenti SelByUserIdCodFid(String UserId, String CodFid) {
+		
+		return utentiRepository.SelByUserIdCodFid(UserId, CodFid);
+	}
+
 }

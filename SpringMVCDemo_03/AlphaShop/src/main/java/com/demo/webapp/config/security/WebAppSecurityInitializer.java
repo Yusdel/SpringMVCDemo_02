@@ -1,4 +1,4 @@
-package com.demo.webapp.config;
+package com.demo.webapp.config.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

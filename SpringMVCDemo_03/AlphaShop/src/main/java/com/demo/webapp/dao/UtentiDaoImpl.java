@@ -77,6 +77,21 @@ public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer>
 			return utente;
 		}
 
+	@Override
+	public Utenti SelByUserIdCodFid(String UserId, String CodFid) {
+		
+		Utenti retVal;
+		
+		String JPQL = "SELECT a FROM Utenti a WHERE a.userId = :userId AND codFidelity = :codFid";
+		
+		retVal = (Utenti) entityManager.createQuery(JPQL)
+				  .setParameter("userId", UserId)
+				  .setParameter("codFid", CodFid)
+				  .getSingleResult();	 
+
+		return retVal;
+	}
+
 	
 
 }

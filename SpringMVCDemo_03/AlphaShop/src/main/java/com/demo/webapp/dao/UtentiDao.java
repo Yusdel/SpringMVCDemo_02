@@ -10,6 +10,8 @@ public interface UtentiDao
 {
 	Utenti SelByIdFidelity(String id);
 	
+	Utenti SelByUserIdCodFid(String UserId, String CodFid);
+	
 	void Salva(Utenti utente);
 	
 	void Aggiorna(Utenti utente);
@@ -18,4 +20,5 @@ public interface UtentiDao
 
 	// TODO Custom Validation if client exist
 	Utenti SelByUserId(String UserId);
+	
 }
