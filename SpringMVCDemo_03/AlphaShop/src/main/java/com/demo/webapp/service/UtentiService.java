@@ -14,6 +14,9 @@ public interface UtentiService
 	Utenti SelByUserIdCodFid(String UserId, String CodFid);
 	
 	void Salva(Utenti utente);
+	
+	// TODO Spring Security
+	void SalvaAdminUser(String Password);
 
 	void Aggiorna(Utenti utente);
 

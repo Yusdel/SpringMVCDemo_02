@@ -26,7 +26,10 @@
                                     <p><spring:message code="login.form.logoutmsg"/></p>
                                 </div>
                             </c:if>
-                            
+                            <div class="input-group input-sm">
+                                <label class="input-group-addon" for="idFidParam"><i class="fa fa-check-square"></i></label>
+                                <input type="text" class="form-control" id="idFidParam" name="idFidParam" placeholder="Codice Fidelity" required>
+                            </div>
                             <div class="input-group input-sm">
                                 <label class="input-group-addon" for="userId"><i class="fa fa-user"></i></label>
                                 <input type="text" class="form-control" id="userId" name="userId" placeholder="Nome Utente" required> <!-- NOTE. (id) Param in CCONFIG class!-->
@@ -38,7 +41,7 @@
                             <div class="input-group input-sm">
                               <div class="checkbox">
                                 <label class="mt-checkbox mt-checkbox-outline">
-                                	<input type="checkbox" id="rememberme" name="remember-me">Ricordami
+                                	<input type="checkbox" id="ricordami" name="ricordami">Ricordami
                                 </label>  
                               </div>
                             </div>

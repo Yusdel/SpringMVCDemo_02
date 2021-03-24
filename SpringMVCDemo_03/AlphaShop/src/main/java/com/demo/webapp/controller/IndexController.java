@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.demo.webapp.config.security.SpringSecurityUserContext;
+
 /*
  * Using the @Controller annotation, the Dispatcher Servlet identifies
  * the controller classes 
@@ -25,6 +27,8 @@ public class IndexController {
 		 /* addAttribute(<ID>, <data>) */
 		model.addAttribute("intestazione", "Benvenuti nel sito Alpha Shop 2");
 		model.addAttribute("saluti", "Seleziona i prodotti da acquistare");
+		model.addAttribute("User", new SpringSecurityUserContext().getCurrentUser());
+		model.addAttribute("Titolo", "AlphaBeta");
 		
 		 /* "index" = JSP page name that the getWelcome method will return */
 		return "index";
@@ -35,6 +39,8 @@ public class IndexController {
 	{
 		model.addAttribute("intestazione", "Benvenuti nel sito Alpha Shop");
 		model.addAttribute("saluti", "Seleziona i prodotti da acquistare");
+		model.addAttribute("User", new SpringSecurityUserContext().getCurrentUser());
+		model.addAttribute("Titolo", "AlphaBeta");
 		
 		return "index";
 	}

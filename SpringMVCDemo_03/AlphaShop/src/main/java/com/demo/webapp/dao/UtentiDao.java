@@ -14,6 +14,9 @@ public interface UtentiDao
 	
 	void Salva(Utenti utente);
 	
+	// TODO Spring Security
+	void SalvaAdminUser(String Password);
+	
 	void Aggiorna(Utenti utente);
 
 	void Elimina(Utenti utente);

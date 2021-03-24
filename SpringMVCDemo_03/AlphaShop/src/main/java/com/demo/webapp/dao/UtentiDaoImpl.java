@@ -4,6 +4,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import com.demo.webapp.entities.Utenti;
 
@@ -15,6 +17,11 @@ import com.demo.webapp.entities.Utenti;
 public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer> 
 	implements UtentiDao
 {
+	
+	// TODO Spring Security
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Override
 	public Utenti SelByIdFidelity(String idFidelity)
 	{
@@ -90,6 +97,19 @@ public class UtentiDaoImpl  extends AbstractDao<Utenti, Integer>
 				  .getSingleResult();	 
 
 		return retVal;
+	}
+
+	// TODO Spring Security
+	@Override
+	public void SalvaAdminUser(String Password) {
+		
+		String EncodedPwd = passwordEncoder.encode(Password);
+		
+		String Sql = "EXEC Sp_InsAdminUser '" + EncodedPwd + "'";
+		
+		entityManager
+			.createNativeQuery(Sql)
+			.executeUpdate();
 	}
 
 	

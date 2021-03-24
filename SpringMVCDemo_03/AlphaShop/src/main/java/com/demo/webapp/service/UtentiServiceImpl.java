@@ -49,4 +49,10 @@ public class UtentiServiceImpl implements UtentiService
 		return utentiRepository.SelByUserIdCodFid(UserId, CodFid);
 	}
 
+	// TODO Spring Security
+	@Override
+	public void SalvaAdminUser(String Password) {
+		 utentiRepository.SalvaAdminUser(Password);
+	}
+
 }

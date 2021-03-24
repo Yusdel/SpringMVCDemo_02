@@ -20,8 +20,11 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import com.demo.webapp.dao.PersistentTokenDao;
 
 /*
  * TODO Spring Security | new class
@@ -32,8 +35,12 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 public class SecurityConfig  extends WebSecurityConfigurerAdapter
 {
 	@Autowired
-	@Qualifier
+	@Qualifier("customUserDetailsService")
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	@Qualifier("persistentTokenRepository") // refer to PersistenceTokenDao
+	private PersistentTokenRepository persistentTokenRepository; 
 	
 	/*
 	 * Activate BCryptPasswordEncoder
@@ -152,8 +159,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter
 			.accessDeniedPage("/login/form?forbidden") // URL for all not Authorization Pages
 		.and()
 			.logout()
-			.logoutUrl("/login/form?logout");
-		//.and().csrf().disable(); // csrf() is only for test
+			.logoutUrl("/login/form?logout")
+		.and().csrf().disable(); // csrf() is only for test // To Solve conflict between Multipart and Spring Security
 				
 	}
 	
@@ -195,15 +202,40 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter
 		PersistentTokenBasedRememberMeServices rememberMeServices = 
       			new CustomRememberMeServices(Key, userDetailsService, persistentTokenRepository);
 		
+		// cookie settings
 		rememberMeServices.setCookieName("ricordami");
       	rememberMeServices.setTokenValiditySeconds(60 * 60 * 4);
-      	rememberMeServices.setParameter("ricordami");
+      	rememberMeServices.setParameter("ricordami"); // input checkbox in view
+      	/*
+      	 * Cookies are often subject to hacker attacks, which is why they should be encrypted.
+      	 * To be encrypted we have to act on a web server that is subject to the SSL protocol (HTTPS)
+      	 * Since we are in the development stage, we don't need the security level, so we can set the parameter to "false".
+      	 * (Note. If we set it to "true" the cookie isn't generated unless it's under HTTPS)
+      	 */
       	rememberMeServices.setUseSecureCookie(false); //todo Abilitare con l'SSL
       	
       	return rememberMeServices;
 		
 		
 	}
+	
+	/*
+	 * This Bean save all tokens in a specific table on Database.
+	 * (the table must have exactly name (persistent_logins) and params (username, series( PK ), token, last_used) )
+	 * CASE A
+	 * To use custom table don't implement this bean
+	 * CASE B 
+	 * new class PersistentTokenDao
+	@Bean
+    public PersistentTokenRepository persistentTokenRepository() 
+	{
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        tokenRepositoryImpl.setDataSource(dataSource);
+        
+        return tokenRepositoryImpl;
+    }
+    */
+	
 	/*
 	 * Service that allows us to specify the users who will be able 
 	 * to access our WebApp
