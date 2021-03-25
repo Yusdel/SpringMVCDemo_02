@@ -46,6 +46,7 @@ public class DettPromoController
 	{
 		logger.info("Modifichiamo il dettaglio promo " + Id);
 
+		// example using jdbc query instead Entities
 		dettPromoService.UpdOggettoPromo(Oggetto, Id);
 		
 		return new ResponseEntity<>(HttpStatus.CREATED);

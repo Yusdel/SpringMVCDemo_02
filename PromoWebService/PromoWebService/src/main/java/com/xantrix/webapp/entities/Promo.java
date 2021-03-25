@@ -30,6 +30,10 @@ public class Promo  implements Serializable
 {
 	private static final long serialVersionUID = -2077445225617424877L;
 
+	/*
+	 * When working with primary keys, Basic annotation does not
+	 * work well, so it's better to use Column annotation.
+	 */
 	@Id
 	@Column(name = "IDPROMO")
 	private String idPromo;

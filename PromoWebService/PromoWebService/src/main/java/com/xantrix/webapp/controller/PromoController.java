@@ -57,6 +57,7 @@ public class PromoController
 		
 	}
 	
+	// PromoNotFoundException = Custom Exception
 	@GetMapping(value = "/id/{idPromo}", produces = "application/json")
 	public ResponseEntity<Promo> listPromoById(@PathVariable("idPromo") String IdPromo) 
 			 throws PromoNotFoundException
@@ -67,6 +68,7 @@ public class PromoController
 		
 		if (promo == null)
 		{
+			// Custom Exception
 			throw new PromoNotFoundException("Promozione Assente o Id Errato");
 			//return new ResponseEntity<Promo>(HttpStatus.NO_CONTENT);
 		}
@@ -110,8 +112,10 @@ public class PromoController
 	@PostMapping(value = "/inserisci")
 	public ResponseEntity<Promo> createPromo(@RequestBody Promo promo)
 	{
+
 		if (promo.getIdPromo().length() == 0)
 		{
+			// if not exist create new ID for new promo
 			UUID uuid = UUID.randomUUID();
 		    String GUID = uuid.toString();
 		    

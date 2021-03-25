@@ -24,7 +24,7 @@ public class DepRifPromo  implements Serializable
 private static final long serialVersionUID = 1436206967746080890L;
 	
 	@Id
-	@Column(name = "ID")
+	@Column(name = "ID") // primary key require @Column and not @Basic annotation
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
@@ -32,7 +32,7 @@ private static final long serialVersionUID = 1436206967746080890L;
 	private int idDeposito;
 	
 	@ManyToOne
-	@EqualsAndHashCode.Exclude
+	@EqualsAndHashCode.Exclude  // To solve @ManyToOne conflict with Lombok
 	@JoinColumn(name = "IDPROMO", referencedColumnName = "idPromo")
 	@JsonBackReference 
 	private Promo promo;

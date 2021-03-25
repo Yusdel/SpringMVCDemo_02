@@ -21,6 +21,7 @@ public class PromoServiceImpl implements PromoService
 	@Override
 	public List<Promo> SelTutti() 
 	{
+		// findAll = Method of Spring Data Jpa -> Interface JpaRepository 
 		return promoRepository.findAll();
 	}
 
@@ -45,7 +46,7 @@ public class PromoServiceImpl implements PromoService
 	@Override
 	public void InsPromo(Promo promo) 
 	{
-		promoRepository.saveAndFlush(promo);
+		promoRepository.saveAndFlush(promo); // Both Insert and Modify
 	}
 
 	@Override

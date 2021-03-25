@@ -1,5 +1,8 @@
 package com.xantrix.webapp.exception;
 
+/*
+ * Custom error message Class 
+ */
 public class PromoNotFoundException  extends Exception
 {
  

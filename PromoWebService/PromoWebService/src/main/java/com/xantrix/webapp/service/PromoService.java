@@ -14,7 +14,7 @@ public interface PromoService
 	
 	List<Promo> SelActivePromo(Date Data);
 	
-	public void InsPromo(Promo promo);
+	public void InsPromo(Promo promo); // Promo and Linked Classes
 	
 	public void DelPromo(Promo promo);
 }

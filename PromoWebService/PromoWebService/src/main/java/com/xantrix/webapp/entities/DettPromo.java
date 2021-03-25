@@ -62,13 +62,13 @@ public class DettPromo implements Serializable
 	private String isfid;
 	
 	@ManyToOne
-	@EqualsAndHashCode.Exclude
+	@EqualsAndHashCode.Exclude // To solve @ManyToOne conflict with Lombok
 	@JoinColumn(name = "IDPROMO", referencedColumnName = "idPromo") // referencedColumnName of Entity PROMO
 	@JsonBackReference 
 	private Promo promo;
 	
 	@ManyToOne
-	@EqualsAndHashCode.Exclude
+	@EqualsAndHashCode.Exclude  // To solve @ManyToOne conflict with Lombok
 	@JoinColumn(name = "IDTIPOPROMO", referencedColumnName = "idTipoPromo")
 	private TipoPromo tipoPromo;
 
