@@ -24,6 +24,6 @@ public interface PromoRepository extends JpaRepository<Promo, Long>
 	Promo findByAnnoAndCodice(int Anno, String Codice);
 	
 	// Custom query
-	@Query("SELECT a FROM Promo a JOIN a.dettPromo b WHERE ?1 BETWEEN b.inizio AND b.fine")
+	@Query("SELECT DISTINCT a FROM Promo a JOIN a.dettPromo b WHERE ?1 BETWEEN b.inizio AND b.fine")
 	List<Promo> SelActivePromo(Date Data);
 }
