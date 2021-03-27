@@ -49,7 +49,7 @@ angular.module('app').controller('PromoController',
 
 			$interval(function () {
 				$scope.selectAllPromo()
-			}, 2000);
+			}, 10000);
 
 			$scope.elimina = function (IdPromo) {
 
